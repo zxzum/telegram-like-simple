@@ -1,0 +1,37 @@
+services:
+  userbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram-auto-reaction-bot
+    
+    environment:
+      - API_ID=${API_ID}
+      - API_HASH=${API_HASH}
+      - PHONE_NUMBER=${PHONE_NUMBER}
+      - CHAT_ID=${CHAT_ID}
+      - TOPIC_ID=${TOPIC_ID}
+      - SESSION_NAME=${SESSION_NAME:-userbot}
+      - PYTHONUNBUFFERED=1
+    
+    volumes:
+      # Persist session files
+      - ./sessions:/app/sessions
+      # For local development (optional)
+      - ./src:/app/src
+    
+    restart: unless-stopped
+    
+    # Optional: for interactive login
+    stdin_open: true
+    tty: true
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
