@@ -1,7 +1,7 @@
 .PHONY: build run stop logs shell login clean help check-env all install dev format lint info clean-logs
 
 # Docker compose command
-DOCKER_COMPOSE := docker-compose
+DOCKER_COMPOSE := docker compose
 SERVICE := userbot
 
 # Colors for output

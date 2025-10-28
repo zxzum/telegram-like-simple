@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e66dda4-819d-4f6a-87d3-b5002f003f8c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sessions/userbot.session" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/userbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/userbot.py" afterDir="false" />
-    </list>
+    <list default="true" id="5e66dda4-819d-4f6a-87d3-b5002f003f8c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1761613928870</updated>
-      <workItem from="1761613929942" duration="3778000" />
+      <workItem from="1761613929942" duration="4419000" />
     </task>
     <servers />
   </component>
