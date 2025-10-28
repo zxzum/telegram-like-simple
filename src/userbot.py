@@ -331,12 +331,19 @@ class SimpleUserBot:
     async def start(self):
         """Start the userbot"""
         try:
-            logger.info("🔐 Starting client connection...")
-            await self.client.connect()
-            logger.info("✅ Client connected")
+            logger.info("🔐 Starting client...")
+
+            # Use start() with no arguments - it will use existing session
+            await self.client.start()
+            logger.info("✅ Client started and authenticated")
 
             # Get current user ID
             me = await self.client.get_me()
+
+            if me is None:
+                logger.error("❌ Failed to get user info - session may be invalid")
+                raise RuntimeError("Could not authenticate with Telegram")
+
             self.my_user_id = me.id
 
             logger.info("=" * 70)
