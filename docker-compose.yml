@@ -1,17 +1,31 @@
+version: '3.8'
+
 services:
-  userbot:
+  telegram-bot-system:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: telegram-auto-reaction-bot
+    container_name: telegram-auto-reaction-system
     
     environment:
+      # Userbot credentials
       - API_ID=${API_ID}
       - API_HASH=${API_HASH}
       - PHONE_NUMBER=${PHONE_NUMBER}
+      - SESSION_NAME=${SESSION_NAME:-userbot}
+      
+      # Chat settings
       - CHAT_ID=${CHAT_ID}
       - TOPIC_ID=${TOPIC_ID}
-      - SESSION_NAME=${SESSION_NAME:-userbot}
+      
+      # Regular bot token
+      - BOT_TOKEN=${BOT_TOKEN}
+      
+      # Options
+      - IGNORE_OWN_MESSAGES=${IGNORE_OWN_MESSAGES:-false}
+      - IGNORE_BOT_MESSAGES=${IGNORE_BOT_MESSAGES:-false}
+      
+      # Python settings
       - PYTHONUNBUFFERED=1
     
     volumes:
@@ -19,6 +33,7 @@ services:
       - ./sessions:/app/sessions
       # For local development (optional)
       - ./src:/app/src
+      - ./main.py:/app/main.py
     
     restart: unless-stopped
     
@@ -30,8 +45,22 @@ services:
     deploy:
       resources:
         limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
           cpus: '0.5'
           memory: 256M
-        reservations:
-          cpus: '0.25'
-          memory: 128M
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge
