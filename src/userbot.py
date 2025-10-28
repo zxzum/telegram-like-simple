@@ -24,8 +24,8 @@ logger = logging.getLogger(__name__)
 
 # Constants
 REACTIONS = ['👍', '❤️']  # Like and Heart
-INITIAL_DELAY = (0.4, 1.4)  # Random delay before first reaction (sec)
-CHECK_REMOVE_DELAY = 30  # Check if should remove after this time (sec)
+INITIAL_DELAY = (0.2, 1.0)  # Random delay before first reaction (sec)
+CHECK_REMOVE_DELAY = 20  # Check if should remove after this time (sec)
 MONITOR_AFTER_REMOVE = 300  # Monitor for 5 minutes after removal (sec)
 MESSAGE_INTERVAL = 2  # Flood control between actions (sec)
 SWITCH_THRESHOLD = 2  # Switch to other reaction if N+ people use it
@@ -72,6 +72,7 @@ class SimpleUserBot:
         self.my_user_id = None
         # Track messages: {message_id: MessageTracker}
         self.tracked_messages = {}
+        self.handler_registered = False
 
         logger.info(f"📦 TelegramClient created with session: sessions/{config.SESSION_NAME}")
 
@@ -331,7 +332,7 @@ class SimpleUserBot:
         """Start the userbot"""
         try:
             logger.info("🔐 Starting client connection...")
-            await self.client.start()
+            await self.client.connect()
             logger.info("✅ Client connected")
 
             # Get current user ID
@@ -385,6 +386,7 @@ class SimpleUserBot:
                 await self.handle_new_message(event)
 
             logger.info("✅ Message handler registered")
+            self.handler_registered = True
             logger.info("👂 LISTENING FOR MESSAGES...\n")
 
             # Keep running
