@@ -1,7 +1,7 @@
-.PHONY: build run stop logs shell login clean help check-env all
+.PHONY: build run stop logs shell login clean help check-env all install dev format lint info clean-logs
 
 # Docker compose command
-DOCKER_COMPOSE := docker compose
+DOCKER_COMPOSE := docker-compose
 SERVICE := userbot
 
 # Colors for output
@@ -28,7 +28,7 @@ help:
 	@echo "  make shell         - Open shell in container"
 	@echo ""
 	@echo "$(GREEN)Session Management:$(NC)"
-	@echo "  make login         - Interactive Telegram login (first time setup)"
+	@echo "  make login         - Interactive Telegram login (creates session)"
 	@echo ""
 	@echo "$(GREEN)Cleanup:$(NC)"
 	@echo "  make clean         - Remove all Docker resources"
@@ -78,12 +78,16 @@ shell:
 	@echo "$(BLUE)🐚 Opening shell in container...$(NC)"
 	@$(DOCKER_COMPOSE) exec $(SERVICE) /bin/bash
 
-# Session management
-login: check-env
-	@echo "$(BLUE)🔐 Starting Telegram login session...$(NC)"
-	@echo "$(YELLOW)⚠️  This will create a new session file.$(NC)"
-	@echo "$(YELLOW)⚠️  Enter your phone number when prompted.$(NC)"
-	@$(DOCKER_COMPOSE) run --rm -it $(SERVICE) python -c "from telethon import TelegramClient; from src.config import *; import asyncio; TelegramClient(SESSION_NAME, API_ID, API_HASH).start(phone=PHONE_NUMBER); print('$(GREEN)✅ Session created!$(NC)')"
+# Session management - Interactive login in container
+login: check-env build
+	@echo "$(BLUE)🔐 Starting Telegram interactive login...$(NC)"
+	@echo "$(YELLOW)⚠️  You will be prompted for your phone number and 2FA code.$(NC)"
+	@echo "$(YELLOW)⚠️  This will create sessions/userbot file.$(NC)"
+	@echo ""
+	@$(DOCKER_COMPOSE) run --rm -it $(SERVICE) python -m src.login
+	@echo ""
+	@echo "$(GREEN)✅ Login successful! Session created.$(NC)"
+	@echo "$(YELLOW)Now run: make run$(NC)"
 
 # Cleanup
 clean: stop
