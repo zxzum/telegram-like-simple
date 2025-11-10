@@ -23,8 +23,5 @@ ENV PYTHONPATH=/app
 # Create directory for session files
 RUN mkdir -p /app/sessions
 
-# Expose port for regular bot (Telegram API polling)
-EXPOSE 8000
-
 # Run the bot system
 CMD ["python", "main.py"]
